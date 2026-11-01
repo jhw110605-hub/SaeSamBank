@@ -1,0 +1,25 @@
+name: APK 빌드
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Buildozer로 APK 빌드
+        id: build
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
+
+      - name: APK 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: saesambank-apk
+          path: ${{ steps.build.outputs.filename }}
