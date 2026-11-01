@@ -1,0 +1,435 @@
+#:kivy 2.3.1
+#:set KOREAN_FONT 'fonts/NotoSansKR-Subset.ttf'
+
+<RoundedButton@Button>:
+    background_normal: ''
+    background_color: 0.15, 0.35, 0.75, 1
+    color: 1, 1, 1, 1
+    font_size: '17sp'
+    font_name: KOREAN_FONT
+    size_hint_y: None
+    height: '52dp'
+
+<GhostButton@Button>:
+    background_normal: ''
+    background_color: 0, 0, 0, 0
+    color: 0.15, 0.35, 0.75, 1
+    font_size: '15sp'
+    font_name: KOREAN_FONT
+    size_hint_y: None
+    height: '40dp'
+
+<SmallActionButton@Button>:
+    background_normal: ''
+    background_color: 0.9, 0.9, 0.92, 1
+    color: 0.15, 0.35, 0.75, 1
+    font_size: '12sp'
+    font_name: KOREAN_FONT
+    size_hint_y: None
+    height: '34dp'
+    size_hint_x: None
+    width: '76dp'
+
+<BankTextInput@TextInput>:
+    multiline: False
+    size_hint_y: None
+    height: '48dp'
+    font_size: '16sp'
+    font_name: KOREAN_FONT
+    padding: [12, 12, 12, 12]
+
+<Label>:
+    font_name: KOREAN_FONT
+
+ScreenManager:
+    LoginScreen:
+    RegisterScreen:
+    HomeScreen:
+    RequestScreen:
+    PendingScreen:
+    HistoryScreen:
+
+<LoginScreen>:
+    name: 'login'
+    account_input: account_input
+    pin_input: pin_input
+    status_label: status_label
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '32dp'
+        spacing: '14dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Widget:
+            size_hint_y: 0.15
+
+        Label:
+            text: '새삼은행'
+            font_size: '34sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '60dp'
+
+        Label:
+            text: '친구들끼리 정산 장부'
+            font_size: '14sp'
+            color: 0.4, 0.4, 0.4, 1
+            size_hint_y: None
+            height: '24dp'
+
+        Widget:
+            size_hint_y: 0.1
+
+        BankTextInput:
+            id: account_input
+            hint_text: '계좌번호 (예: 110-100000)'
+
+        BankTextInput:
+            id: pin_input
+            hint_text: 'PIN 번호'
+            password: True
+
+        Label:
+            id: status_label
+            text: ''
+            color: 0.8, 0.1, 0.1, 1
+            size_hint_y: None
+            height: '24dp'
+            font_size: '13sp'
+
+        RoundedButton:
+            text: '로그인'
+            on_release: root.login()
+
+        GhostButton:
+            text: '계좌 개설하기'
+            on_release: root.manager.current = 'register'
+
+<RegisterScreen>:
+    name: 'register'
+    name_input: name_input
+    pin_input: pin_input
+    bank_name_input: bank_name_input
+    bank_account_input: bank_account_input
+    status_label: status_label
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '32dp'
+        spacing: '10dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: '계좌 개설'
+            font_size: '26sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '46dp'
+
+        Label:
+            text: '실제 계좌 정보는 정산 요청을 보낼 때만 쓰여요'
+            font_size: '12sp'
+            color: 0.4, 0.4, 0.4, 1
+            size_hint_y: None
+            height: '18dp'
+
+        BankTextInput:
+            id: name_input
+            hint_text: '이름'
+
+        BankTextInput:
+            id: pin_input
+            hint_text: '사용할 PIN 번호 (4자리 이상)'
+            password: True
+
+        BankTextInput:
+            id: bank_name_input
+            hint_text: '실제 은행명 (선택, 예: 카카오뱅크)'
+
+        BankTextInput:
+            id: bank_account_input
+            hint_text: '실제 계좌번호 (선택)'
+
+        Label:
+            id: status_label
+            text: ''
+            color: 0.8, 0.1, 0.1, 1
+            size_hint_y: None
+            height: '22dp'
+            font_size: '13sp'
+
+        RoundedButton:
+            text: '계좌 개설'
+            on_release: root.register()
+
+        GhostButton:
+            text: '뒤로'
+            on_release: root.manager.current = 'login'
+
+        Widget:
+
+<HomeScreen>:
+    name: 'home'
+    name_label: name_label
+    account_label: account_label
+    owed_label: owed_label
+    iowe_label: iowe_label
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '24dp'
+        spacing: '12dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: '새삼은행'
+            font_size: '20sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '36dp'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '110dp'
+            padding: '18dp'
+            spacing: '4dp'
+            canvas.before:
+                Color:
+                    rgba: 0.15, 0.35, 0.75, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [16]
+            Label:
+                id: name_label
+                text: ''
+                color: 1, 1, 1, 1
+                font_size: '15sp'
+                halign: 'left'
+                size_hint_y: None
+                height: '22dp'
+            Label:
+                id: account_label
+                text: ''
+                color: 0.85, 0.9, 1, 1
+                font_size: '12sp'
+                halign: 'left'
+                size_hint_y: None
+                height: '18dp'
+            Widget:
+
+        BoxLayout:
+            size_hint_y: None
+            height: '78dp'
+            spacing: '10dp'
+            BoxLayout:
+                orientation: 'vertical'
+                padding: '10dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.90, 0.96, 0.91, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12]
+                Label:
+                    text: '받을 돈'
+                    font_size: '12sp'
+                    color: 0.2, 0.45, 0.25, 1
+                Label:
+                    id: owed_label
+                    text: '0원'
+                    font_size: '19sp'
+                    bold: True
+                    color: 0.15, 0.45, 0.2, 1
+            BoxLayout:
+                orientation: 'vertical'
+                padding: '10dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.98, 0.92, 0.92, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12]
+                Label:
+                    text: '보낼 돈'
+                    font_size: '12sp'
+                    color: 0.55, 0.2, 0.2, 1
+                Label:
+                    id: iowe_label
+                    text: '0원'
+                    font_size: '19sp'
+                    bold: True
+                    color: 0.7, 0.2, 0.2, 1
+
+        RoundedButton:
+            text: '정산 요청하기'
+            on_release: root.go_request()
+
+        RoundedButton:
+            text: '정산 대기 목록'
+            background_color: 0.9, 0.9, 0.92, 1
+            color: 0.1, 0.2, 0.5, 1
+            on_release: root.go_pending()
+
+        RoundedButton:
+            text: '완료된 정산 내역'
+            background_color: 0.9, 0.9, 0.92, 1
+            color: 0.1, 0.2, 0.5, 1
+            on_release: root.go_history()
+
+        Widget:
+
+        GhostButton:
+            text: '로그아웃'
+            on_release: root.logout()
+
+<RequestScreen>:
+    name: 'request'
+    to_input: to_input
+    amount_input: amount_input
+    memo_input: memo_input
+    status_label: status_label
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '24dp'
+        spacing: '14dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: '정산 요청'
+            font_size: '24sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '40dp'
+
+        Label:
+            text: '실제 돈은 옮기지 않아요. 요청만 만들고, 실제 이체는 상대방이 직접 해요.'
+            font_size: '11sp'
+            color: 0.5, 0.5, 0.5, 1
+            size_hint_y: None
+            height: '32dp'
+            text_size: self.width, None
+
+        BankTextInput:
+            id: to_input
+            hint_text: '상대방 이름 또는 계좌번호'
+
+        BankTextInput:
+            id: amount_input
+            hint_text: '요청 금액 (원)'
+            input_filter: 'int'
+
+        BankTextInput:
+            id: memo_input
+            hint_text: '메모 (예: 점심값)'
+
+        Label:
+            id: status_label
+            text: ''
+            color: 0.8, 0.1, 0.1, 1
+            size_hint_y: None
+            height: '24dp'
+            font_size: '13sp'
+
+        RoundedButton:
+            text: '요청 만들기'
+            on_release: root.create_request()
+
+        GhostButton:
+            text: '뒤로'
+            on_release: root.manager.current = 'home'
+
+        Widget:
+
+<PendingScreen>:
+    name: 'pending'
+    pending_list: pending_list
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '10dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: '정산 대기 목록'
+            font_size: '22sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '40dp'
+
+        ScrollView:
+            BoxLayout:
+                id: pending_list
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: '10dp'
+
+        GhostButton:
+            text: '뒤로'
+            on_release: root.manager.current = 'home'
+
+<HistoryScreen>:
+    name: 'history'
+    history_list: history_list
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacing: '10dp'
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: '완료된 정산 내역'
+            font_size: '22sp'
+            bold: True
+            color: 0.1, 0.2, 0.5, 1
+            size_hint_y: None
+            height: '40dp'
+
+        ScrollView:
+            BoxLayout:
+                id: history_list
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: '8dp'
+
+        GhostButton:
+            text: '뒤로'
+            on_release: root.manager.current = 'home'
